@@ -86,6 +86,7 @@ extension KeyboardShortcuts {
 			self.onChange = onChange
 
 			super.init(frame: .zero)
+            self.refusesFirstResponder = false
 			self.delegate = self
 			self.placeholderString = "record_shortcut".localized
 			self.alignment = .center
@@ -166,12 +167,6 @@ extension KeyboardShortcuts {
 
 		/// :nodoc:
 		override public func becomeFirstResponder() -> Bool {
-			let shouldBecomeFirstResponder = super.becomeFirstResponder()
-
-			guard shouldBecomeFirstResponder else {
-				return shouldBecomeFirstResponder
-			}
-
 			placeholderString = "press_shortcut".localized
 			showsCancelButton = !stringValue.isEmpty
 			hideCaret()
@@ -273,7 +268,7 @@ extension KeyboardShortcuts {
 				return nil
 			}.start()
 
-			return shouldBecomeFirstResponder
+			return true
 		}
 
 		private func saveShortcut(_ shortcut: Shortcut?) {
